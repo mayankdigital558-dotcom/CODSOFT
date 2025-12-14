@@ -1,0 +1,56 @@
+import { useState } from 'react';
+import ProjectList from './components/ProjectList';
+import TaskList from './components/TaskList';
+
+function App() {
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [view, setView] = useState('projects');
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <header className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-6 shadow-lg">
+        <div className="container mx-auto">
+          <h1 className="text-4xl font-bold">Project Management Tool</h1>
+          <p className="text-blue-100 mt-2">Manage your projects and tasks efficiently</p>
+        </div>
+      </header>
+      <div className="flex">
+        <nav className="w-80 bg-white h-screen p-6 shadow-xl">
+          <h2 className="text-xl font-semibold mb-6 text-gray-800">Navigation</h2>
+          <ul className="space-y-4">
+            <li>
+              <button
+                onClick={() => setView('projects')}
+                className={`w-full text-left p-4 rounded-lg transition-colors duration-200 ${
+                  view === 'projects'
+                    ? 'bg-blue-500 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                📁 Projects
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={() => setView('tasks')}
+                className={`w-full text-left p-4 rounded-lg transition-colors duration-200 ${
+                  view === 'tasks'
+                    ? 'bg-green-500 text-white shadow-md'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                ✅ Tasks
+              </button>
+            </li>
+          </ul>
+        </nav>
+        <main className="flex-1 p-6">
+          {view === 'projects' && <ProjectList onSelectProject={setSelectedProject} />}
+          {view === 'tasks' && <TaskList projectId={selectedProject} />}
+        </main>
+      </div>
+    </div>
+  );
+}
+
+export default App;
