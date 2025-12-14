@@ -1,0 +1,706 @@
+import React, { useState } from 'react';
+// Note: In a real React project, you would import the CSS file here:
+// import './App.css'; 
+
+const App = () => {
+    // State for managing the mobile navigation menu toggle
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    // Function to toggle the menu state
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    // Function to close the menu when a link is clicked
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
+
+    // The entire CSS block from the original file
+    // In a production environment, move this to App.css and import it.
+    const styles = `
+        /* --- 1. CSS Utility Variables and Reset --- */
+        * {
+            box-sizing: border-box;
+            margin: 100;
+            padding: 100;
+        }
+
+        :root {
+            --color-primary: #00AEEF; /* Electric Teal Accent */
+            --color-background-main: #121212; /* Deep Charcoal */
+            --color-background-secondary: #1E1E1E;
+            --color-text-main: #EDEDED; /* Off-White Text */
+            --color-text-secondary: #999999;
+            --color-code: #00FF87; /* Bright Green for Tags/Code */
+            --spacing-lg: 3rem;
+            --spacing-md: 1.5rem;
+            --max-width: 1200px;
+        }
+
+        /* --- 2. Global Styles --- */
+        body {
+            background-color: var(--color-background-main);
+            color: var(--color-text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        /* --- 3. Header & Navigation --- */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: var(--spacing-md) var(--spacing-lg);
+            background-color: var(--color-background-main);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid var(--color-background-secondary);
+        }
+
+        /* UPDATED: Logo with Image Styling */
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--color-primary);
+            display: flex; /* Aligns image and text */
+            align-items: center;
+            gap: 0.5rem; /* Space between logo and name */
+        }
+        
+        .logo-img {
+            width: 30px; /* Size of the logo image */
+            height: 30px; 
+            border-radius: 50%; /* Makes it circular (profile picture style) */
+            object-fit: cover; /* Ensures image fills the circle */
+            border: 2px solid var(--color-primary); /* Optional accent border */
+        }
+        /* END UPDATED LOGO STYLES */
+
+        .nav-menu a {
+            color: var(--color-text-main);
+            margin-left: var(--spacing-md);
+            padding: 0.5rem 0.5rem;
+            transition: color 0.3s, border-bottom 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-primary);
+            border-bottom: 2px solid var(--color-primary);
+        }
+
+        .menu-toggle {
+            display: none; /* Hidden on desktop */
+        }
+
+        /* --- 4. Main Layout & Section Titles --- */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 var(--spacing-md);
+        }
+
+        section {
+            padding: var(--spacing-lg) 0;
+            border-bottom: 1px solid var(--color-background-secondary);
+            text-align: center; /* **NEW: Center all text/inline content in sections** */
+        }
+        
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-lg);
+            /* Advanced Aesthetic: Subtle text shadow for 'glow' */
+            text-shadow: 0 0 5px rgba(0, 174, 239, 0.4); 
+        }
+
+        /* --- 5. Hero Section (Visual Impact) --- */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
+            /* text-align: center; already set by section */
+        }
+
+        .hero-content {
+            width: 100%;
+        }
+
+        .headline {
+            font-size: 4rem; /* Larger and bolder */
+            margin-bottom: 1rem;
+            /* Unique Code: Text Gradient */
+            background: linear-gradient(90deg, var(--color-text-main), var(--color-primary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center; /* Ensures buttons are centered as a group */
+            gap: var(--spacing-md);
+        }
+
+        .cta-primary, .cta-secondary {
+            padding: 0.8rem 2.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .cta-primary {
+            background-color: var(--color-primary);
+            color: var(--color-background-main);
+            border: 2px solid var(--color-primary);
+        }
+
+        .cta-primary:hover {
+            background-color: transparent;
+            color: var(--color-primary);
+            box-shadow: 0 0 15px rgba(0, 174, 239, 0.7);
+        }
+
+        .cta-secondary {
+            background-color: transparent;
+            color: var(--color-text-main);
+            border: 2px solid var(--color-text-secondary);
+        }
+
+        .cta-secondary:hover {
+            border-color: var(--color-primary);
+            color: var(--color-primary);
+        }
+
+        /* --- 6. Projects Showcase (Card Design) --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            max-width: 1000px; /* Optional: Constrain grid width to better center it */
+            margin: 0 auto; /* Center the grid container itself */
+        }
+
+        .project-card {
+            background-color: var(--color-background-secondary);
+            padding: var(--spacing-md);
+            border-radius: 8px;
+            border-left: 5px solid transparent; 
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            text-align: left; /* **Revert text to left-aligned inside the card for readability** */
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .ai-ml-focus {
+            border-color: #4D4DFF; /* Blue/Purple for AI/ML */
+        }
+
+        .full-stack-focus {
+            border-color: var(--color-primary); /* Teal for Web Dev */
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-tech-stack {
+            margin: 1rem 0;
+            flex-grow: 1; 
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background-color: rgba(0, 255, 135, 0.1); 
+            color: var(--color-code);
+            padding: 0.3rem 0.6rem;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* --- Compact Domain Projects List Styling --- */
+        .domain-projects-list {
+            margin-top: var(--spacing-lg);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-background-secondary);
+        }
+
+        .domain-projects-list .subtitle {
+            margin-top: 0;
+            font-size: 1.5rem;
+        }
+
+        .domain-projects-list p {
+            color: var(--color-text-secondary);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .project-list-compact {
+            list-style: none;
+            padding: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 10px;
+            max-width: 800px; /* Constrain list width to better center it */
+            margin: 0 auto; /* Center the list container itself */
+            text-align: left; /* **Revert text to left-aligned inside the list for readability** */
+        }
+
+        .project-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background-color: #1a1a1a; 
+            border-radius: 4px;
+            border-left: 3px solid var(--color-primary);
+            transition: background-color 0.3s;
+        }
+
+        .project-item:hover {
+            background-color: #252525;
+            border-left-color: #4D4DFF; /* Subtle hover color change */
+        }
+
+        .project-name {
+            font-weight: 500;
+            color: var(--color-text-main);
+        }
+
+        .project-link-small {
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+        
+        /* --- 7. Skills Grid (Visual Organization) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+            max-width: 900px; /* Constrain grid width to better center it */
+            margin: 0 auto; /* Center the grid container itself */
+        }
+
+        .skill-category {
+            padding: var(--spacing-md);
+            background-color: var(--color-background-secondary);
+            border-radius: 8px;
+            border: 1px solid #333;
+            text-align: left; /* **Revert text to left-aligned inside the card for readability** */
+        }
+
+        .category-title {
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 0.5rem;
+        }
+
+        .skill-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-list li {
+            padding: 0.2rem 0;
+        }
+        
+        .skill-list li:before {
+            /* Unique Code: Custom bullet point */
+            content: "✦"; 
+            color: var(--color-primary);
+            font-weight: bold;
+            display: inline-block; 
+            width: 1.5em;
+            margin-left: -1.5em;
+        }
+
+        /* --- 8. About Me & Education --- */
+        .education-details {
+            margin-top: var(--spacing-md);
+            padding-top: var(--spacing-md);
+            border-top: 1px solid var(--color-background-secondary);
+        }
+        
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 1rem;
+        }
+        
+        /* Education List Styling */
+        .education-list {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 1rem;
+            display: inline-block; /* Center the list block itself */
+            text-align: left; /* **Revert text to left-aligned inside the list for readability** */
+        }
+        
+        .education-list li {
+            padding: 0.3rem 0;
+            color: var(--color-text-secondary);
+        }
+        
+        .education-list li strong {
+            color: var(--color-text-main);
+            margin-right: 0.5rem;
+        }
+
+        .cert-list {
+            list-style: none;
+            padding: 0;
+            display: inline-block; /* Center the list block itself */
+            text-align: left; /* **Revert text to left-aligned inside the list for readability** */
+        }
+
+        /* --- 9. Footer & Contact --- */
+        .contact-section p {
+            margin-bottom: 1rem;
+        }
+
+        .contact-link {
+            font-weight: 600;
+        }
+        
+        .footer {
+            padding: var(--spacing-md) 0;
+            text-align: center;
+            border-top: 1px solid var(--color-background-secondary);
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .social-links a {
+            margin: 0 0.5rem;
+            color: var(--color-text-secondary);
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--color-primary);
+        }
+
+        /* --- 10. Media Queries (Responsiveness) --- */
+        @media (max-width: 768px) {
+            .header {
+                padding: 1rem;
+            }
+            .nav-menu {
+                display: none; 
+            }
+            .nav-menu.active {
+                display: flex; 
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background-color: var(--color-background-main);
+                padding: 1rem 0;
+                box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+                text-align: center;
+            }
+            .nav-menu.active a {
+                padding: 0.8rem 1.5rem;
+                margin: 0;
+                border-bottom: 1px solid #333;
+            }
+            .headline {
+                font-size: 2.5rem;
+            }
+            .section-title {
+                font-size: 2rem;
+            }
+            .cta-group {
+                flex-direction: column;
+                gap: 0.8rem;
+                align-items: center;
+            }
+            .cta-primary, .cta-secondary {
+                width: 90%;
+                padding: 1rem;
+            }
+            .project-list-compact {
+                grid-template-columns: 1fr;
+            }
+        }
+    `;
+
+    return (
+        <div className="App">
+            {/* Styles are included here for a self-contained example,
+                but should ideally be in a separate .css file in a real project. */}
+            <style>{styles}</style>
+
+            {/* 1. Header & Navigation */}
+            <header className="header">
+                <div className="logo">
+                    {/* NOTE: The local path you provided "c:\Users\..." 
+                        will NOT work in a browser/React application.
+                        Please replace the 'src' value with a hosted image URL 
+                        or a path to an image in your React 'public' folder (e.g., '/logo.jpeg'). 
+                    */}
+                    <img
+                        src="c:/Users/91955/Downloads/WhatsApp Image 2025-09-07 at 15.11.49.jpeg"
+                        alt="Mayank Pandey Profile Logo"
+                        className="logo-img"
+                    />
+                    <span>Mayank Pandey</span>
+                </div>
+                <nav className={`nav-menu ${isMenuOpen ? 'active' : ''}`}>
+                    {/* Use onClick={closeMenu} to close the menu on link click in mobile view */}
+                    <a href="#projects" className="nav-link" onClick={closeMenu}>Projects</a>
+                    <a href="#skills" className="nav-link" onClick={closeMenu}>Skills</a>
+                    <a href="#about" className="nav-link" onClick={closeMenu}>About</a>
+                    <a href="#contact" className="nav-link" onClick={closeMenu}>Contact</a>
+                </nav>
+                <button 
+                    className="menu-toggle" 
+                    aria-label="Toggle navigation"
+                    onClick={toggleMenu} // Use React state to handle toggle
+                >
+                    &#9776;
+                </button>
+            </header>
+
+            {/* 2. Main Content */}
+            <main>
+                {/* Hero Section */}
+                <section id="hero" className="hero-section">
+                    <div className="hero-content">
+                        <h1 className="headline">
+                            Aspiring AI/ML Engineer & Full-Stack Developer
+                        </h1>
+                        <p className="tagline">
+                            Building innovative solutions, scalable applications, and intelligent systems driven by data-driven technologies.
+                        </p>
+                        <div className="cta-group">
+                            <a href="#ai-projects" className="cta-primary">View AI/ML Solutions</a>
+                            <a href="#web-projects" className="cta-secondary">Explore Web Development</a>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Projects Showcase */}
+                <section id="projects" className="projects-section">
+                    <h2 className="section-title">Featured Work & Innovation</h2>
+
+                    <div className="projects-grid">
+                        {/* Project 1: AI/ML Project Card */}
+                        <article id="ai-projects" className="project-card ai-ml-focus">
+                            <div>
+                                <h3 className="project-title">Health Monitoring System (AI)</h3>
+                                <p className="project-description">
+                                    Built a camera-based AI system to detect health vitals of individuals in real-time. Showcases proficiency in Computer Vision, Deep Learning, and problem-solving.
+                                </p>
+                            </div>
+                            <div className="project-tech-stack">
+                                <span className="tech-tag">Python</span>
+                                <span className="tech-tag">Deep Learning</span>
+                                <span className="tech-tag">TensorFlow</span>
+                                <span className="tech-tag">Computer Vision</span>
+                                <span className="tech-tag">Scikit-learn</span>
+                            </div>
+                            <a href="URL_TO_AI_PROJECT_REPO" className="project-link" aria-label="View Health Monitoring System Case Study">View Code &rarr;</a>
+                        </article>
+
+                        {/* Project 2: Full-Stack Project Card */}
+                        <article id="web-projects" className="project-card full-stack-focus">
+                            <div>
+                                <h3 className="project-title">Movie Verse Website</h3>
+                                <p className="project-description">
+                                    Designed and developed a movie recommendation platform. Demonstrates foundational skills in interactive web applications and responsive design.
+                                </p>
+                            </div>
+                            <div className="project-tech-stack">
+                                <span className="tech-tag">HTML5</span>
+                                <span className="tech-tag">CSS3</span>
+                                <span className="tech-tag">JavaScript (ES6+)</span>
+                                <span className="tech-tag">React.js (Conceptual Upgrade)</span>
+                            </div>
+                            <a href="URL_TO_WEB_PROJECT_LIVE" className="project-link" aria-label="View Movie Verse Live Site">Live Demo &rarr;</a>
+                        </article>
+                        
+                        {/* Project 3: AI Chatbot/NLP Project Card */}
+                        <article className="project-card ai-ml-focus">
+                            <div>
+                                <h3 className="project-title">AI Chatbot</h3>
+                                <p className="project-description">
+                                    Developed a basic chatbot using NLP techniques and Python libraries. Focus on natural language understanding.
+                                </p>
+                            </div>
+                            <div className="project-tech-stack">
+                                <span className="tech-tag">Python</span>
+                                <span className="tech-tag">NLP</span>
+                                <span className="tech-tag">Pandas</span>
+                            </div>
+                            <a href="URL_TO_CHATBOT_REPO" className="project-link" aria-label="View AI Chatbot Code">View Code &rarr;</a>
+                        </article>
+                    </div> 
+                    
+                    {/* Compact Domain Projects List */}
+                    <div className="domain-projects-list">
+                        <h3 className="subtitle">Additional Domain Projects (Web Development)</h3>
+                        <p>A collection of responsive websites developed for various domains, showcasing proficiency in web design and fundamental development skills.</p>
+                        
+                        <ul className="project-list-compact">
+                            <li className="project-item">
+                                <span className="project-name">GetnGrow</span>
+                                <a href="URL_GETNGROW" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">Registration.Taxcurv</span>
+                                <a href="URL_TAXCURV" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">Media Maniacs (Single Page Design)</span>
+                                <a href="URL_MEDIAMANIACS" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">Digital Virus</span>
+                                <a href="URL_DIGITALVIRUS" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">SparksPhereEvents</span>
+                                <a href="URL_SPARKSPHERE" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">Sst Digital Media</span>
+                                <a href="URL_SSTDIGITAL" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">ExcelMediaServices</span>
+                                <a href="URL_EXCELMEDIA" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                            <li className="project-item">
+                                <span className="project-name">HopeHandsFoundation</span>
+                                <a href="URL_HOPEHANDS" target="_blank" className="project-link-small">View Site &rarr;</a>
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+                
+                {/* Technical Skills Section */}
+                <section id="skills" className="skills-section">
+                    <h2 className="section-title">Technical Expertise</h2>
+                    
+                    <div className="skills-grid">
+                        {/* Skill Category: AI/ML & Data */}
+                        <div className="skill-category">
+                            <h3 className="category-title">AI/ML & Data Science</h3>
+                            <ul className="skill-list">
+                                <li>Python, TensorFlow, PyTorch</li>
+                                <li>Scikit-learn, Pandas, NumPy</li>
+                                <li>NLP, Deep Learning</li>
+                            </ul>
+                        </div>
+                        
+                        {/* Skill Category: Full-Stack Web Development */}
+                        <div className="skill-category">
+                            <h3 className="category-title">Full-Stack Development</h3>
+                            <ul className="skill-list">
+                                <li>HTML5, CSS3, JavaScript (ES6+), React.js</li>
+                                <li>Node.js, Express.js, REST APIs</li>
+                                <li>MongoDB, MySQL</li>
+                            </ul>
+                        </div>
+                        
+                        {/* Skill Category: Tools, Platforms & Other */}
+                        <div className="skill-category">
+                            <h3 className="category-title">Tools & Platforms</h3>
+                            <ul className="skill-list">
+                                <li>Git/GitHub, Docker, AWS (basic)</li>
+                                <li>Jupyter Notebook, VS Code</li>
+                                <li>SEO, Google Analytics/Ads, Facebook Ads</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                {/* About Me & Education Section */}
+                <section id="about" className="about-section">
+                    <h2 className="section-title">About Me & Background</h2>
+                    <div className="about-content">
+                        <p className="bio-summary">
+                            I am a highly adaptable and collaborative individual with strong problem-solving and project management skills. My goal is to leverage my comprehensive skills in Full-Stack development and Machine Learning to drive intelligent system creation.
+                        </p>
+                        
+                        <div className="education-details">
+                            <h3 className="subtitle">Education & Certification</h3>
+                            
+                            <ul className="education-list">
+                                <li>
+                                    <strong>BCA (Hons. & Research):</strong> Specialization in Machine Learning & AI (Persuing: 2023-2027)
+                                </li>
+                                <li>
+                                    <strong>Intermediate (12th):</strong> GVP School, Bhadohi U.P. (Passing Year: July 2022)
+                                </li>
+                                <li>
+                                    <strong>High School (10th):</strong> YM Convent School, Bhadohi U.P. (Passing Year: May 2020)
+                                </li>
+                            </ul>
+                            
+                            <ul className="cert-list">
+                                <li>AI/ML IBM Skills Build Certification</li>
+                                <li>Digital Marketing - Delhi Institute of Digital Marketing</li>
+                                <li>National Skills Development Corporation (Certification)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Contact Section */}
+                <section id="contact" className="contact-section">
+                    <h2 className="section-title">Let's Connect</h2>
+                    <p>I am actively seeking opportunities to apply my skills. Reach out for collaboration or inquiries.</p>
+                    <address className="contact-info">
+                        Email: <a href="mailto:pandeymayank558@gmail.com" className="contact-link">pandeymayank558@gmail.com</a> | 
+                        Phone: <a href="tel:9559091102" className="contact-link">9559091102</a>
+                    </address>
+                </section>
+                
+            </main>
+
+            {/* Footer */}
+            <footer className="footer">
+                <p>&copy; 2025 Mayank Pandey. Built with Semantic HTML5 & Modern CSS.</p>
+                <div className="social-links">
+                    <a href="URL_TO_GITHUB" aria-label="Mayank Pandey GitHub" target="_blank">GitHub</a> |
+                    <a href="URL_TO_LINKEDIN" aria-label="Mayank Pandey LinkedIn" target="_blank">LinkedIn</a>
+                </div>
+            </footer>
+        </div>
+    );
+}
+
+// Export the component for use in index.js
+export default App;
