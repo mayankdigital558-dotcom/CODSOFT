@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(145deg, #1b1f3b, #3a4e72);
+    animation: gradientMove 8s ease infinite;
+    background-size: 300% 300%;
+}
+
+/* ⭐ Star Animation */
+.stars {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.stars span {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.8); }
+}
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Calculator Styles */
+.calculator {
+    width: 350px;
+    padding: 25px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.35);
+}
+
+.display {
+    width: 100%;
+    height: 70px;
+    background: rgba(255,255,255,0.15);
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 32px;
+    padding: 15px;
+    text-align: right;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+}
+
+.btn {
+    padding: 18px;
+    font-size: 20px;
+    border-radius: 14px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(4px);
+    transition: 0.2s;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.25);
+}
+
+.btn:hover {
+    background: rgba(255,255,255,0.35);
+}
+
+.operator {
+    background: rgba(255, 100, 100, 0.35);
+}
+
+.operator:hover {
+    background: rgba(255, 120, 120, 0.55);
+}
+
+.equal {
+    grid-column: span 2;
+    background: rgba(0, 180, 120, 0.55);
+}
+
+.equal:hover {
+    background: rgba(0, 200, 140, 0.7);
+}
