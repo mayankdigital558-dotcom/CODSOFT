@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Quiz Pro</title>
+    <link rel="stylesheet" href="Quiz.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <div class="container header-content">
+            <h1><i class="fas fa-brain"></i> Quiz Pro</h1>
+            <nav id="main-nav">
+                <a href="#" data-page="home" class="nav-link active">Home</a>
+                <a href="#" data-page="listing" class="nav-link">Quizzes</a>
+                <div class="auth-links">
+                    <a href="#" data-page="login" class="nav-link">Login</a>
+                    <a href="#" data-page="register" class="nav-link btn-secondary">Sign Up</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section id="home-page" class="page-view active">
+            <div class="hero">
+                <h2>Design, Learn, and Challenge.</h2>
+                <p>Create professional quizzes or take on exciting challenges in any subject. Start your knowledge journey now.</p>
+                <div class="hero-actions">
+                    <button class="btn-primary" data-page="creation"><i class="fas fa-plus-circle"></i> Create a New Quiz</button>
+                    <button class="btn-secondary" data-page="listing"><i class="fas fa-list-alt"></i> Take a Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="creation-page" class="page-view hidden">
+            <h2><i class="fas fa-edit"></i> Create a Quiz</h2>
+            <form id="quiz-creation-form" class="form-card">
+                <div class="form-group">
+                    <label for="quiz-title">Quiz Title</label>
+                    <input type="text" id="quiz-title" placeholder="e.g., Fundamentals of JavaScript" required>
+                </div>
+                <div id="questions-container">
+                    </div>
+                <button type="button" class="btn-add-question" id="add-question-btn"><i class="fas fa-plus"></i> Add Question</button>
+                <button type="submit" class="btn-primary create-quiz-submit">Publish Quiz</button>
+            </form>
+        </section>
+
+        <section id="listing-page" class="page-view hidden">
+            <h2><i class="fas fa-list-alt"></i> Available Quizzes</h2>
+            <div id="quiz-list" class="grid-list">
+                <div class="quiz-card" data-quiz-id="1">
+                    <h3>Science Quiz: Elements</h3>
+                    <p>10 Questions | Created by: Admin</p>
+                    <button class="btn-secondary take-quiz-btn">Start Quiz</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="taking-page" class="page-view hidden">
+            <h2 id="quiz-taking-title">Quiz Title Here</h2>
+            <div id="quiz-container" class="form-card">
+                <p class="question-counter">Question <span id="current-q-num">1</span> of <span id="total-q-num">5</span></p>
+                <div id="question-area">
+                    <h3>1. What is the capital of France?</h3>
+                    <div class="options-list">
+                        <label class="option-label"><input type="radio" name="q1" value="A"> Paris</label>
+                        <label class="option-label"><input type="radio" name="q1" value="B"> London</label>
+                        <label class="option-label"><input type="radio" name="q1" value="C"> Rome</label>
+                    </div>
+                </div>
+                <button class="btn-primary" id="next-question-btn">Next Question <i class="fas fa-arrow-right"></i></button>
+            </div>
+        </section>
+
+        <section id="results-page" class="page-view hidden">
+            <div class="results-card">
+                <h2><i class="fas fa-trophy"></i> Quiz Completed!</h2>
+                <div class="score-display">
+                    <p>Your Score:</p>
+                    <h1 id="final-score">8 / 10</h1>
+                </div>
+                <button class="btn-secondary" data-page="listing">Go to Quiz List</button>
+            </div>
+        </section>
+
+        <section id="login-page" class="page-view hidden">
+            <h2><i class="fas fa-user-circle"></i> User Login</h2>
+            <form class="form-card auth-form">
+                <div class="form-group">
+                    <label for="login-email">Email</label>
+                    <input type="email" id="login-email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <button type="submit" class="btn-primary">Login</button>
+            </form>
+            <p class="auth-switch">Don't have an account? <a href="#" data-page="register">Sign Up</a></p>
+        </section>
+
+        <section id="register-page" class="page-view hidden">
+            <h2><i class="fas fa-user-plus"></i> Register Account</h2>
+            <form class="form-card auth-form">
+                <div class="form-group">
+                    <label for="register-name">Full Name</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" placeholder="you@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <button type="submit" class="btn-primary">Register</button>
+            </form>
+            <p class="auth-switch">Already have an account? <a href="#" data-page="login">Login</a></p>
+        </section>
+
+    </main>
+
+    <script src="Quiz.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</body>
+</html>
