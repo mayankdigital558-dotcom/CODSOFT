@@ -1,0 +1,63 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './App.css';
+
+function App() {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/api/categories')
+      .then(response => setCategories(response.data))
+      .catch(error => console.log(error));
+  }, []);
+
+  return (
+    <div className="App">
+      <header className="App-header">
+        <h1>Welcome to MiniShop</h1>
+        <nav>
+          <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#categories">Categories</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <section id="home">
+        <h2>Discover Amazing Products</h2>
+        <p>Your one-stop shop for all categories!</p>
+      </section>
+
+      <section id="categories">
+        <h2>Product Categories</h2>
+        <div className="category-grid">
+          {categories.map(category => (
+            <div key={category.id} className="category">
+              <img src={`https://via.placeholder.com/300x200?text=${category.name}`} alt={category.name} />
+              <h3>{category.name}</h3>
+              <p>{category.description}</p>
+              <button>Shop Now</button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact Us</h2>
+        <form>
+          <input type="text" placeholder="Name" required />
+          <input type="email" placeholder="Email" required />
+          <textarea placeholder="Message"></textarea>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+
+      <footer>
+        <p>&copy; 2025 MiniShop. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
